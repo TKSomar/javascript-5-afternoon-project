@@ -166,23 +166,32 @@ class Machine {
   this.widgets_made_count = 0;
   this.wear_and_tear_count = 0;
   this.needs_reboot = false;
-  this.makeWidgets = function(num){
-    this.widgets_made_count += num
-    if (num){
-      this.wear_and_tear_count += 1
-    }
   }
-  this.fixMachine = function(){
-    this.needs_reboot = true
+
+  makeWidgets(num){
+    this.widgets_made_count += num;
+    this.wear_and_tear_count = Math.floor( this.widgets_made_count / 50 );
   }
-  this.reboot = function(){
-    var done = function(){
-      this.wear_and_tear_count -= 10
-      this.needs_reboot = false
-      }
-    return done()
-    }
+
+  fixMachine(){
+    this.needs_reboot = true;
   }
+
+  reboot(){
+    return function() {
+      this.wear_and_tear_count -= 10;
+      this.needs_reboot = false;
+    }.bind(this)
+  }
+  
 }
+
+const walle = new Machine();
+
+walle.makeWidgets(1000);
+
+const innerFunction = walle.reboot();
+
+innerFunction()
 
 
