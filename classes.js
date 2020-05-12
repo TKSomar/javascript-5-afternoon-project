@@ -167,7 +167,10 @@ class Machine {
   this.wear_and_tear_count = 0;
   this.needs_reboot = false;
   this.makeWidgets = function(num){
-    this.wear_and_tear_count += num
+    this.widgets_made_count += num
+    if (num){
+      this.wear_and_tear_count += 1
+    }
   }
   this.fixMachine = function(){
     this.needs_reboot = true
@@ -177,6 +180,7 @@ class Machine {
       this.wear_and_tear_count -= 10
       this.needs_reboot = false
       }
+    return done()
     }
   }
 }
